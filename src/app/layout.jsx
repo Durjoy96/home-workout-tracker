@@ -22,7 +22,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <main className="max-w-md mx-auto px-4 py-8 bg-base-100 lg:rounded-lg min-h-screen my-0 lg:my-8">
+          {children}
+        </main>
       </body>
     </html>
   );

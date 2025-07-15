@@ -5,6 +5,21 @@
   --foreground: #171717;
 }
 
+@theme {
+  --color-base-100: #0d0d0d;
+  --color-base-200: #1a1a1a;
+  --color-base-300: #262626;
+  --color-base-400: #333333;
+  --color-base-content: #ffffff;
+  --color-base-content-secondary: #a0a0a0;
+  --color-primary: #a8ff60;
+  --color-primary-content: #000000;
+  --color-secondary: #ff4500;
+  --color-secondary-content: #ffffff;
+  --color-accent: #1e90ff;
+  --color-accent-content: #ffffff;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
