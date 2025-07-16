@@ -16,10 +16,10 @@
   --color-base-400: #cfd8e3;
   --color-base-content: #30313d;
   --color-base-content-secondary: #5c5b61; */
-  --color-primary: #a8ff60;
-  --color-primary-content: #000000;
-  --color-secondary: #ff4500;
-  --color-secondary-content: #ffffff;
+  /*   --color-primary: #a8ff60;
+  --color-primary-content: #000000; */
+  --color-primary: #e6533c;
+  --color-primary-content: #ffffff;
   --color-accent: #1e90ff;
   --color-accent-content: #ffffff;
 }
@@ -29,6 +29,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+.outline-btn {
+  @apply py-3 px-4 rounded-lg border-2 border-base-300 text-base-content w-full cursor-pointer hover:bg-base-300 transition-colors duration-200;
 }
 
 /* @media (prefers-color-scheme: dark) {

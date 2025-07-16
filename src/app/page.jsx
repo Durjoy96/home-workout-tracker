@@ -1,6 +1,7 @@
 "use client";
 
 import AddExerciseModal from "@/components/add-exercise-modal";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
@@ -29,9 +30,9 @@ export default function Home() {
       </div>
       <button
         onClick={() => document.getElementById("add-exercise").showModal()}
-        className="py-3 px-4 rounded-lg border-2 border-base-300 text-base-content w-full cursor-pointer hover:bg-base-300 transition-colors duration-200 mt-4"
+        className="outline-btn mt-4 flex gap-1 items-center justify-center"
       >
-        + Add Exercise
+        <Plus className="w-8 hy-8 stroke-primary" /> Add Exercise
       </button>
       <AddExerciseModal setExercises={setExercises} />
     </div>
