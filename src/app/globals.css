@@ -43,6 +43,10 @@
   @apply py-3 px-4 rounded-lg border-2 bg-transparent border-primary text-primary w-full cursor-pointer text-base font-medium hover:bg-primary/90 hover:border-primary/90 hover:text-primary-content transition-colors duration-200;
 }
 
+.exercise-list li:not(:nth-child(-n + 3)) {
+  display: none;
+}
+
 /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
