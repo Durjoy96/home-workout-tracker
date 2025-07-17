@@ -7,7 +7,13 @@ import { useState } from "react";
 
 export default function Home() {
   const [exercises, setExercises] = useState([]);
-
+  const saveWorkoutBtnHandler = () => {
+    if (exercises.length === 0) {
+      alert("Please add at least one exercise before saving the workout.");
+      return;
+    }
+    document.getElementById("save-workout").showModal();
+  };
   return (
     <div className="min-h-screen px-4 py-8 flex flex-col justify-between">
       <div>
@@ -38,10 +44,7 @@ export default function Home() {
         </button>
       </div>
       <div className="flex gap-4 mt-6">
-        <button
-          className="outline-btn"
-          onClick={() => document.getElementById("save-workout").showModal()}
-        >
+        <button className="outline-btn" onClick={saveWorkoutBtnHandler}>
           Save Workout
         </button>
         <button className="primary-btn">Start Workout 🔥</button>

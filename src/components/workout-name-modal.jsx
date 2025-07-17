@@ -4,8 +4,26 @@ export default function WorkoutNameModal({ setExercises, exercises }) {
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent the default form submission
     const form = event.target;
-    const workoutName = form[0].value;
+    const workoutName = form.workoutName.value;
     console.log(workoutName);
+    if (workoutName) {
+        
+      const previousSavedWorkouts = JSON.parse(
+        localStorage.getItem("workouts") || "[]"
+      ); // Retrieve previous workouts from localStorage
+
+      const NewWorkouts = [
+        ...previousSavedWorkouts,
+        { name: workoutName, exercises },
+      ]; // Append new workout with exercises
+
+      // Save the updated workouts to localStorage
+      localStorage.setItem("workouts", JSON.stringify(NewWorkouts));
+      alert(`Workout "${workoutName}" saved successfully!`);
+      setExercises([]); // Clear exercises after saving
+      form.reset();
+      document.getElementById("save-workout").close(); // Close the modal
+    }
   };
   return (
     <dialog id="save-workout" className="modal">
@@ -30,6 +48,8 @@ export default function WorkoutNameModal({ setExercises, exercises }) {
                 type="text"
                 placeholder="eg. Full Body Workout"
                 className="p-2 w-full rounded-lg bg-base-400 focus:outline-base-400 focus:bg-base-400"
+                name="workoutName"
+                autoFocus
                 required
               />
             </fieldset>
