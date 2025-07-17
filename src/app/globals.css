@@ -36,7 +36,7 @@
 }
 
 .primary-btn {
-  @apply py-3 px-4 rounded-lg border-2 bg-primary border-primary text-primary-content w-full cursor-pointer text-base font-medium hover:bg-primary/80 transition-colors duration-200;
+  @apply py-3 px-4 rounded-lg border-2 bg-primary border-primary text-primary-content w-full cursor-pointer text-base font-medium hover:opacity-90 transition-colors duration-200;
 }
 
 .secondary-btn {
