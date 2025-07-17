@@ -19,7 +19,7 @@ export default function DisplayWorkouts() {
         workouts.map((workouts, index) => (
           <div
             key={index}
-            className="bg-base-300 px-4 py-6 rounded-lg flex justify-between items-center"
+            className="bg-base-300 px-4 py-6 rounded-lg flex justify-between items-center border border-base-400"
           >
             <div className="self-start">
               <h3 className="text-xl font-bold text-base-content">
@@ -56,11 +56,11 @@ export default function DisplayWorkouts() {
               </span>
             </div>
             <div className="flex flex-col gap-2">
-              <button className="circle-btn">
-                <Edit2Icon className="w-5 h-5 stroke-base-content" />
+              <button className="circle-btn group">
+                <Edit2Icon className="w-5 h-5 stroke-base-content-secondary group-hover:stroke-base-content" />
               </button>
-              <button className="circle-btn">
-                <Trash2 className="w-5 h-5 stroke-base-content" />
+              <button className="circle-btn group">
+                <Trash2 className="w-5 h-5 stroke-base-content-secondary group-hover:stroke-base-content" />
               </button>
               <button className="circle-btn group">
                 <Play className="w-5 h-5 stroke-primary group-hover:stroke-base-content fill-primary group-hover:fill-base-content" />
