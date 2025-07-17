@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="bg-base-200 px-4 py-8 rounded-lg min-h-screen flex flex-col justify-between">
       <div>
-        <h2 className="text-2xl font-bold text-base-content">Workouts</h2>
+        <h2 className="text-3xl font-bold text-base-content">Workouts</h2>
         <DisplayWorkouts />
       </div>
       <EmptyWorkouts />

@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div className="min-h-screen px-4 py-8 flex flex-col justify-between">
       <div>
-        <h2 className="text-2xl font-bold text-base-content">
+        <h2 className="text-3xl font-bold text-base-content">
           Create Workout Routine
         </h2>
         <div className="flex flex-col gap-4 mt-4">

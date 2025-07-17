@@ -8,6 +8,7 @@
   --color-base-200: #1a1a1a;
   --color-base-300: #262626;
   --color-base-400: #333333;
+  --color-base-500: #404040;
   --color-base-content: #ffffff;
   --color-base-content-secondary: #a0a0a0;
   /*  --color-base-100: #ffffff;
@@ -41,6 +42,10 @@
 
 .secondary-btn {
   @apply py-3 px-4 rounded-lg border-2 bg-transparent border-primary text-primary w-full cursor-pointer text-base font-medium hover:bg-primary/90 hover:border-primary/90 hover:text-primary-content transition-colors duration-200;
+}
+
+.circle-btn {
+  @apply w-12 h-12 rounded-full bg-base-400 border border-base-500 flex justify-center items-center text-base-content hover:bg-primary hover:border-primary transition-colors duration-200 cursor-pointer;
 }
 
 .exercise-list li:not(:nth-child(-n + 3)) {
