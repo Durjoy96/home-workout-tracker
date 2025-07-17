@@ -1,6 +1,7 @@
 "use client";
 
 import AddExerciseModal from "@/components/add-exercise-modal";
+import WorkoutNameModal from "@/components/workout-name-modal";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
@@ -37,10 +38,16 @@ export default function Home() {
         </button>
       </div>
       <div className="flex gap-4 mt-6">
-        <button className="outline-btn">Save Workout</button>
+        <button
+          className="outline-btn"
+          onClick={() => document.getElementById("save-workout").showModal()}
+        >
+          Save Workout
+        </button>
         <button className="primary-btn">Start Workout 🔥</button>
       </div>
       <AddExerciseModal setExercises={setExercises} />
+      <WorkoutNameModal setExercises={setExercises} exercises={exercises} />
     </div>
   );
 }
