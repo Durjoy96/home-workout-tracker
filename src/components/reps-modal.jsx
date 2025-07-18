@@ -1,8 +1,29 @@
 import React from "react";
 
-export default function RepsModal() {
+export default function RepsModal({
+  setTimeHandler,
+  setCurrentSetsNum,
+  maxSets,
+}) {
+  const formHandler = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const reps = form.reps.value;
+    if (reps) {
+      document.getElementById("reps-modal").close();
+      setTimeHandler(true);
+      setCurrentSetsNum((prev) => {
+        if (prev < maxSets) {
+          return prev + 1;
+        } else {
+          return prev; // Do not increment if max sets reached
+        }
+      });
+      form.reset(); // Reset the form after submission
+    }
+  };
   return (
-    <dialog id="save-workout" className="modal">
+    <dialog id="reps-modal" className="modal">
       <div className="modal-box bg-base-300 rounded-lg max-w-sm">
         <form method="dialog">
           {/* if there is a button in form, it will close the modal */}
@@ -14,35 +35,19 @@ export default function RepsModal() {
           <form
             id="addExerciseForm"
             className="w-full mt-2"
-            onSubmit={handleSubmit}
+            onSubmit={formHandler}
           >
             <div>
               <fieldset className="fieldset w-full">
                 <legend className="fieldset-legend text-base-content">
-                  Provide a Workout Name
-                </legend>
-                <input
-                  type="text"
-                  placeholder="eg. Full Body Workout"
-                  className="p-2 w-full rounded-lg bg-base-400 focus:outline-base-400 focus:bg-base-400"
-                  name="workoutName"
-                  autoFocus
-                  required
-                />
-              </fieldset>
-              <fieldset className="fieldset w-full relative">
-                <legend className="fieldset-legend text-base-content">
-                  Rest Time After Each Set
+                  How many reps?
                 </legend>
                 <input
                   type="number"
-                  placeholder="eg. 3"
+                  placeholder="eg. 15"
                   className="p-2 w-full rounded-lg bg-base-400 focus:outline-base-400 focus:bg-base-400"
-                  name="restTime"
+                  name="reps"
                 />
-                <span className="absolute right-6 top-1/2 -translate-y-1/2 text-base-content">
-                  min
-                </span>
               </fieldset>
             </div>
             <button

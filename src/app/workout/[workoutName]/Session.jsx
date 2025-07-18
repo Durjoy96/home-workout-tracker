@@ -1,19 +1,28 @@
 "use client";
 
+import RepsModal from "@/components/reps-modal";
 import React, { useEffect, useState } from "react";
 
 export default function Session({ workoutName }) {
   const [exercises, setExercises] = useState(null);
-  const [sessionTime, setSessionTime] = useState(0); // Time in seconds
-  const [setTime, setSetTime] = useState(0); // Time in seconds
+  const [sessionTime, setSessionTime] = useState(0);
+  const [setTime, setSetTime] = useState(0);
   const [displayCompletedBtn, setDisplayCompletedBtn] = useState(false);
+  const [setTimer, setSetTimer] = useState(null);
+  const [currentSetsNum, setCurrentSetsNum] = useState(null);
+  const [maxSets, setMaxSets] = useState(null);
+  const [sessionData, setSessionData] = useState({
+    workoutName,
+    exercises: [],
+  });
 
   useEffect(() => {
     const exercises = JSON.parse(localStorage.getItem("workouts")).filter(
       (workout) => workout.name === workoutName
     );
     setExercises(exercises[0]);
-    console.log(exercises[0].exercises[0].exerciseName);
+    setMaxSets(exercises[0].exercises[0].sets);
+    setCurrentSetsNum(1);
   }, [workoutName]);
 
   useEffect(() => {
@@ -24,10 +33,21 @@ export default function Session({ workoutName }) {
     return () => clearInterval(timer); // Cleanup on component unmount
   }, []);
 
-  const setTimeHandler = () => {
-    const timer = setInterval(() => {
-      setSetTime((prevTime) => prevTime + 1);
-    }, 1000);
+  const setTimeHandler = (stop) => {
+    if (stop) {
+      clearInterval(setTimer);
+      setSetTime(0);
+      setDisplayCompletedBtn(false);
+      setSessionData((prevData) => ({
+        ...prevData,
+        exercises: [...prevData.exercises, exercises.exercises[0]],
+      }));
+    } else {
+      const timer = setInterval(() => {
+        setSetTime((prevTime) => prevTime + 1);
+      }, 1000);
+      setSetTimer(timer);
+    }
   };
 
   const formatSetsTime = (time) => {
@@ -62,7 +82,7 @@ export default function Session({ workoutName }) {
               {exercises.exercises[0].exerciseName}
             </h3>
             <span className="text-base-content-secondary text-center block mt-2">
-              Set 1 of {exercises.exercises[0].sets}
+              Set {currentSetsNum} of {exercises.exercises[0].sets}
             </span>
           </div>
           <div>
@@ -86,12 +106,18 @@ export default function Session({ workoutName }) {
               className={`secondary-btn ${
                 displayCompletedBtn ? "block" : "hidden"
               }`}
+              onClick={() => document.getElementById("reps-modal").showModal()}
             >
               Set Completed
             </button>
           </div>
         </div>
       )}
+      <RepsModal
+        setTimeHandler={setTimeHandler}
+        setCurrentSetsNum={setCurrentSetsNum}
+        maxSets={maxSets}
+      />
     </div>
   );
 }
