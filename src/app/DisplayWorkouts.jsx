@@ -41,13 +41,13 @@ export default function DisplayWorkouts() {
                   </li>
                 ))}
               </ul>
-              {workouts.exercises.length > 3 && (
+              {workouts.exercises.length > 2 && (
                 <button
                   className="cursor-pointer text-primary hover:text-primary/90 text-base"
                   onClick={exerciseListBtnHandler}
                 >
                   {displayFullList ? "-" : "+"}
-                  {workouts.exercises.length - 3}
+                  {workouts.exercises.length - 2}
                   {displayFullList ? " less" : " more"}
                 </button>
               )}
