@@ -20,7 +20,7 @@ export default function RepsModal({
         }
       });
       form.reset(); // Reset the form after submission
-    }
+    }   
   };
   return (
     <dialog id="reps-modal" className="modal">
