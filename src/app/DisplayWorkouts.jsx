@@ -1,5 +1,6 @@
 "use client";
 import { Edit2Icon, Play, Trash2 } from "lucide-react";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function DisplayWorkouts() {
@@ -62,9 +63,12 @@ export default function DisplayWorkouts() {
               <button className="circle-btn group">
                 <Trash2 className="w-5 h-5 stroke-base-content-secondary group-hover:stroke-base-content" />
               </button>
-              <button className="circle-btn group">
+              <Link
+                href={`/workout/${workouts.name.replaceAll(" ", "-")}`}
+                className="circle-btn group"
+              >
                 <Play className="w-5 h-5 stroke-primary group-hover:stroke-base-content fill-primary group-hover:fill-base-content" />
-              </button>
+              </Link>
             </div>
           </div>
         ))}
