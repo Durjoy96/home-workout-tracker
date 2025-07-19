@@ -15,7 +15,7 @@ export default function Home() {
     document.getElementById("save-workout").showModal();
   };
   return (
-    <div className="min-h-screen px-4 py-8 flex flex-col justify-between">
+    <div className="min-h-dvh px-4 py-8 flex flex-col justify-between">
       <div>
         <h2 className="text-3xl font-bold text-base-content">
           Create Workout Routine
@@ -47,7 +47,7 @@ export default function Home() {
         <button className="outline-btn" onClick={saveWorkoutBtnHandler}>
           Save Workout
         </button>
-        <button className="primary-btn">Start Workout 🔥</button>
+        <button className="primary-btn ">Start Workout </button>
       </div>
       <AddExerciseModal setExercises={setExercises} />
       <WorkoutNameModal setExercises={setExercises} exercises={exercises} />

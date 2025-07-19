@@ -75,11 +75,14 @@ export default function Session({ workoutName }) {
   return (
     <div>
       {exercises && exercises.exercises.length > 0 && (
-        <div className="px-4 py-8 flex flex-col justify-between min-h-screen">
+        <div className="px-4 py-8 flex flex-col justify-between min-h-dvh relative">
           {displayRestTimer ? (
             <RestTimer
               restTime={exercises.restTime}
               setDisplayRestTimer={setDisplayRestTimer}
+              exerciseName={exercises.exercises[0].exerciseName}
+              currentSetsNum={currentSetsNum}
+              maxSets={maxSets}
             />
           ) : (
             <>
