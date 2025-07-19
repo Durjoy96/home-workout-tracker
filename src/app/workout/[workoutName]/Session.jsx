@@ -13,6 +13,7 @@ export default function Session({ workoutName }) {
   const [currentSetsNum, setCurrentSetsNum] = useState(null);
   const [maxSets, setMaxSets] = useState(null);
   const [displayRestTimer, setDisplayRestTimer] = useState(false);
+  const [exerciseNum, setExerciseNum] = useState(0);
   const [sessionData, setSessionData] = useState({
     workoutName,
     exercises: [],
@@ -23,7 +24,7 @@ export default function Session({ workoutName }) {
       (workout) => workout.name === workoutName
     );
     setExercises(exercises[0]);
-    setMaxSets(exercises[0].exercises[0].sets);
+    setMaxSets(exercises[0].exercises[exerciseNum].sets);
     setCurrentSetsNum(1);
   }, [workoutName]);
 
@@ -41,6 +42,18 @@ export default function Session({ workoutName }) {
       setSetTime(0);
       setDisplayCompletedBtn(false);
       setDisplayRestTimer((prev) => !prev);
+      setCurrentSetsNum((prev) => {
+        if (prev < maxSets) {
+          return prev + 1;
+        } else {
+          return 1; // Reset sets count for the next exercise
+        }
+      });
+
+      if (currentSetsNum >= maxSets) {
+        setExerciseNum((prevExerciseNum) => prevExerciseNum + 1); // Move to the next exercise
+      }
+
       setSessionData((prevData) => ({
         ...prevData,
         exercises: [...prevData.exercises, exercises.exercises[0]],
@@ -80,9 +93,10 @@ export default function Session({ workoutName }) {
             <RestTimer
               restTime={exercises.restTime}
               setDisplayRestTimer={setDisplayRestTimer}
-              exerciseName={exercises.exercises[0].exerciseName}
+              exerciseName={exercises.exercises[exerciseNum].exerciseName}
               currentSetsNum={currentSetsNum}
               maxSets={maxSets}
+              exerciseNum={exerciseNum}
             />
           ) : (
             <>
@@ -92,10 +106,10 @@ export default function Session({ workoutName }) {
                   <span>{formatSessionTime(sessionTime)}</span>
                 </h2>
                 <h3 className="text-3xl font-bold text-base-content text-center mt-4">
-                  {exercises.exercises[0].exerciseName}
+                  {exercises.exercises[exerciseNum].exerciseName}
                 </h3>
                 <span className="text-base-content-secondary text-center block mt-2">
-                  Set {currentSetsNum} of {exercises.exercises[0].sets}
+                  Set {currentSetsNum} of {maxSets}
                 </span>
               </div>
               <div>
@@ -115,7 +129,7 @@ export default function Session({ workoutName }) {
                 displayCompletedBtn ? "hidden" : "block"
               }`}
             >
-              Start {exercises.exercises[0].exerciseName}
+              Start {exercises.exercises[exerciseNum].exerciseName}
             </button>
             <button
               className={`secondary-btn ${
@@ -132,6 +146,7 @@ export default function Session({ workoutName }) {
         setTimeHandler={setTimeHandler}
         setCurrentSetsNum={setCurrentSetsNum}
         maxSets={maxSets}
+        setExerciseNum={setExerciseNum}
       />
     </div>
   );

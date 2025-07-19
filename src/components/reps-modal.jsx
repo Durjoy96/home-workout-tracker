@@ -4,6 +4,7 @@ export default function RepsModal({
   setTimeHandler,
   setCurrentSetsNum,
   maxSets,
+  setExerciseNum,
 }) {
   const formHandler = (event) => {
     event.preventDefault();
@@ -12,15 +13,8 @@ export default function RepsModal({
     if (reps) {
       document.getElementById("reps-modal").close();
       setTimeHandler(true);
-      setCurrentSetsNum((prev) => {
-        if (prev < maxSets) {
-          return prev + 1;
-        } else {
-          return prev; // Do not increment if max sets reached
-        }
-      });
       form.reset(); // Reset the form after submission
-    }   
+    }
   };
   return (
     <dialog id="reps-modal" className="modal">
