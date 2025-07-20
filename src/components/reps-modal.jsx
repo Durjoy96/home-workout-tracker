@@ -1,11 +1,6 @@
 import React from "react";
 
-export default function RepsModal({
-  setTimeHandler,
-  setCurrentSetsNum,
-  maxSets,
-  setExerciseNum,
-}) {
+export default function RepsModal({ setTimeHandler }) {
   const formHandler = (event) => {
     event.preventDefault();
     const form = event.target;

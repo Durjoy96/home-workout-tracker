@@ -14,6 +14,7 @@ export default function Session({ workoutName }) {
   const [maxSets, setMaxSets] = useState(null);
   const [displayRestTimer, setDisplayRestTimer] = useState(false);
   const [exerciseNum, setExerciseNum] = useState(0);
+  const [exerciseType, setExerciseType] = useState(null);
   const [sessionData, setSessionData] = useState({
     workoutName,
     exercises: [],
@@ -24,8 +25,8 @@ export default function Session({ workoutName }) {
       (workout) => workout.name === workoutName
     );
     setExercises(exercises[0]);
-    setMaxSets(exercises[0].exercises[exerciseNum].sets);
-    setCurrentSetsNum(1);
+    setMaxSets(exercises[0].exercises[exerciseNum].sets); // Set the maximum sets for the first exercise
+    setCurrentSetsNum(1); // Initialize to 1 for the first set
   }, [workoutName]);
 
   useEffect(() => {
@@ -36,28 +37,39 @@ export default function Session({ workoutName }) {
     return () => clearInterval(timer); // Cleanup on component unmount
   }, []);
 
+  useEffect(() => {
+    if (exercises && exercises.exercises.length > 0) {
+      setExerciseType(exercises.exercises[exerciseNum].exerciseType);
+      setMaxSets(() => exercises.exercises[exerciseNum].sets); // Update max sets for the new exercise
+    }
+  }, [exerciseNum, exercises]);
+
   const setTimeHandler = (stop) => {
+    console.log("setTimerHandler started");
     if (stop) {
       clearInterval(setTimer);
-      setSetTime(0);
+
+      if (exerciseType === "Time") {
+        const duration = exercises.exercises[exerciseNum].duration; // it's seconds
+        setSetTime(duration);
+      } else {
+        setSetTime(0);
+      }
+
       setDisplayCompletedBtn(false);
-      setDisplayRestTimer((prev) => !prev);
+      setDisplayRestTimer(true); // Show the rest timer
+
       setCurrentSetsNum((prev) => {
         if (prev < maxSets) {
-          return prev + 1;
+          return prev + 1; // Increment the set number
         } else {
-          return 1; // Reset sets count for the next exercise
+          return 1; // Reset the set number for the next exercise
         }
       });
 
       if (currentSetsNum >= maxSets) {
         setExerciseNum((prevExerciseNum) => prevExerciseNum + 1); // Move to the next exercise
       }
-
-      setSessionData((prevData) => ({
-        ...prevData,
-        exercises: [...prevData.exercises, exercises.exercises[0]],
-      }));
     } else {
       const timer = setInterval(() => {
         setSetTime((prevTime) => prevTime + 1);
@@ -83,6 +95,35 @@ export default function Session({ workoutName }) {
       2,
       "0"
     )}:${String(seconds).padStart(2, "0")}`;
+  };
+
+  const timeBasedExerciseHandler = () => {
+    const duration = exercises.exercises[exerciseNum].duration; // it's seconds
+    setSetTime(duration); // Initialize the timer with the duration
+
+    // Clear any existing timer before starting a new one
+    if (setTimer) {
+      clearInterval(setTimer);
+    }
+
+    let isHandlerCalled = false;
+
+    const timer = setInterval(() => {
+      setSetTime((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer); // Stop the timer when it reaches 0
+          setSetTimer(null);
+          if (!isHandlerCalled) {
+            setTimeHandler(true); // Handle the end of the set
+            isHandlerCalled = true; // Ensure the handler is called only once
+          }
+          return 0; // Ensure the timer stops at 0
+        }
+        return prevTime - 1; // Decrement the timer
+      });
+    }, 1000);
+
+    setSetTimer(timer); // Save the timer reference for cleanup
   };
 
   return (
@@ -113,17 +154,28 @@ export default function Session({ workoutName }) {
                 </span>
               </div>
               <div>
-                <span className="text-6xl font-bold block text-center">
-                  {formatSetsTime(setTime)}
-                </span>
+                {exerciseType === "Time" ? (
+                  <span className="text-6xl font-bold block text-center">
+                    {formatSetsTime(setTime)}
+                  </span>
+                ) : (
+                  <span className="text-6xl font-bold block text-center">
+                    {formatSetsTime(setTime)}
+                  </span>
+                )}
               </div>
             </>
           )}
           <div className={`${displayRestTimer ? "hidden" : "block"} mt-8`}>
             <button
               onClick={() => {
-                setTimeHandler();
-                setDisplayCompletedBtn((prev) => !prev);
+                if (exerciseType === "Time") {
+                  timeBasedExerciseHandler();
+                  setDisplayCompletedBtn((prev) => !prev);
+                } else {
+                  setTimeHandler(false);
+                  setDisplayCompletedBtn((prev) => !prev);
+                }
               }}
               className={`primary-btn ${
                 displayCompletedBtn ? "hidden" : "block"
@@ -142,12 +194,7 @@ export default function Session({ workoutName }) {
           </div>
         </div>
       )}
-      <RepsModal
-        setTimeHandler={setTimeHandler}
-        setCurrentSetsNum={setCurrentSetsNum}
-        maxSets={maxSets}
-        setExerciseNum={setExerciseNum}
-      />
+      <RepsModal setTimeHandler={setTimeHandler} />
     </div>
   );
 }

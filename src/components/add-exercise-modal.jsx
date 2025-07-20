@@ -24,6 +24,7 @@ export default function AddExerciseModal({ setExercises }) {
         },
       ]);
       form.reset();
+      setDisplayDurationInput(false); // Reset the duration input display state
       document.getElementById("add-exercise").close(); // Close the modal
     }
   };
@@ -71,7 +72,11 @@ export default function AddExerciseModal({ setExercises }) {
                 defaultValue="Reps"
                 name="exerciseType"
                 className="p-2.5 text-sm w-full rounded-lg bg-base-400 focus:outline-base-400 focus:bg-base-400"
-                onChange={() => setDisplayDurationInput((prev) => !prev)}
+                onChange={(e) => {
+                  if (e.target.value === "Time") {
+                    setDisplayDurationInput(true);
+                  }
+                }}
               >
                 <option value="Reps">Reps Based</option>
                 <option value="Time">Time Based</option>
