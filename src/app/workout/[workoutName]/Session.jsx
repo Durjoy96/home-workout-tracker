@@ -3,6 +3,7 @@
 import RepsModal from "@/components/reps-modal";
 import React, { useEffect, useState } from "react";
 import RestTimer from "./RestTimer";
+import SessionComplete from "./SessionComplete";
 
 export default function Session({ workoutName }) {
   const [exercises, setExercises] = useState(null);
@@ -15,6 +16,7 @@ export default function Session({ workoutName }) {
   const [displayRestTimer, setDisplayRestTimer] = useState(false);
   const [exerciseNum, setExerciseNum] = useState(0);
   const [exerciseType, setExerciseType] = useState(null);
+  const [workoutComplete, setWorkoutComplete] = useState(false);
   const [sessionData, setSessionData] = useState({
     workoutName,
     exercises: [],
@@ -39,13 +41,12 @@ export default function Session({ workoutName }) {
 
   useEffect(() => {
     if (exercises && exercises.exercises.length > 0) {
-      setExerciseType(exercises.exercises[exerciseNum].exerciseType);
-      setMaxSets(() => exercises.exercises[exerciseNum].sets); // Update max sets for the new exercise
+      setExerciseType(exercises?.exercises[exerciseNum]?.exerciseType);
+      setMaxSets(() => exercises?.exercises[exerciseNum]?.sets); // Update max sets for the new exercise
     }
   }, [exerciseNum, exercises]);
 
   const setTimeHandler = (stop) => {
-    console.log("setTimerHandler started");
     if (stop) {
       clearInterval(setTimer);
 
@@ -56,8 +57,18 @@ export default function Session({ workoutName }) {
         setSetTime(0);
       }
 
+      if (
+        exerciseNum >= exercises.exercises.length - 1 &&
+        currentSetsNum >= maxSets
+      ) {
+        setWorkoutComplete(true); // Mark the workout as complete
+        setDisplayRestTimer(false); // Hide the rest timer
+        // Here you can handle the completion of the workout, e.g., save session data or navigate to a completion screen
+      } else {
+        setDisplayRestTimer(true); // Show the rest timer
+      }
+
       setDisplayCompletedBtn(false);
-      setDisplayRestTimer(true); // Show the rest timer
 
       setCurrentSetsNum((prev) => {
         if (prev < maxSets) {
@@ -98,7 +109,7 @@ export default function Session({ workoutName }) {
   };
 
   const timeBasedExerciseHandler = () => {
-    const duration = exercises.exercises[exerciseNum].duration; // it's seconds
+    const duration = exercises?.exercises[exerciseNum]?.duration; // it's seconds
     setSetTime(duration); // Initialize the timer with the duration
 
     // Clear any existing timer before starting a new one
@@ -134,39 +145,49 @@ export default function Session({ workoutName }) {
             <RestTimer
               restTime={exercises.restTime}
               setDisplayRestTimer={setDisplayRestTimer}
-              exerciseName={exercises.exercises[exerciseNum].exerciseName}
+              exerciseName={exercises?.exercises[exerciseNum]?.exerciseName}
               currentSetsNum={currentSetsNum}
               maxSets={maxSets}
               exerciseNum={exerciseNum}
             />
           ) : (
             <>
-              <div>
-                <h2 className="text-base font-normal text-base-content-secondary text-center">
-                  {workoutName} Session{" "}
-                  <span>{formatSessionTime(sessionTime)}</span>
-                </h2>
-                <h3 className="text-3xl font-bold text-base-content text-center mt-4">
-                  {exercises.exercises[exerciseNum].exerciseName}
-                </h3>
-                <span className="text-base-content-secondary text-center block mt-2">
-                  Set {currentSetsNum} of {maxSets}
-                </span>
-              </div>
-              <div>
-                {exerciseType === "Time" ? (
-                  <span className="text-6xl font-bold block text-center">
-                    {formatSetsTime(setTime)}
-                  </span>
-                ) : (
-                  <span className="text-6xl font-bold block text-center">
-                    {formatSetsTime(setTime)}
-                  </span>
-                )}
-              </div>
+              {workoutComplete ? (
+                <SessionComplete />
+              ) : (
+                <>
+                  <div>
+                    <h2 className="text-base font-normal text-base-content-secondary text-center">
+                      {workoutName} Session{" "}
+                      <span>{formatSessionTime(sessionTime)}</span>
+                    </h2>
+                    <h3 className="text-3xl font-bold text-base-content text-center mt-4">
+                      {exercises?.exercises[exerciseNum]?.exerciseName}
+                    </h3>
+                    <span className="text-base-content-secondary text-center block mt-2">
+                      Set {currentSetsNum} of {maxSets}
+                    </span>
+                  </div>
+                  <div>
+                    {exerciseType === "Time" ? (
+                      <span className="text-6xl font-bold block text-center">
+                        {formatSetsTime(setTime)}
+                      </span>
+                    ) : (
+                      <span className="text-6xl font-bold block text-center">
+                        {formatSetsTime(setTime)}
+                      </span>
+                    )}
+                  </div>
+                </>
+              )}
             </>
           )}
-          <div className={`${displayRestTimer ? "hidden" : "block"} mt-8`}>
+          <div
+            className={`${
+              displayRestTimer || workoutComplete ? "hidden" : "block"
+            } mt-8`}
+          >
             <button
               onClick={() => {
                 if (exerciseType === "Time") {
@@ -181,7 +202,7 @@ export default function Session({ workoutName }) {
                 displayCompletedBtn ? "hidden" : "block"
               }`}
             >
-              Start {exercises.exercises[exerciseNum].exerciseName}
+              Start {exercises?.exercises[exerciseNum]?.exerciseName}
             </button>
             <button
               className={`secondary-btn ${
