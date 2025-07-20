@@ -19,6 +19,9 @@ export default function Session({ workoutName }) {
   const [workoutComplete, setWorkoutComplete] = useState(false);
   const [sessionData, setSessionData] = useState({
     workoutName,
+    sessionTime: 0,
+    date: new Date().toISOString(),
+    restTime: exercises?.restTime || 0,
     exercises: [],
   });
 
@@ -46,9 +49,48 @@ export default function Session({ workoutName }) {
     }
   }, [exerciseNum, exercises]);
 
-  const setTimeHandler = (stop) => {
+  const setTimeHandler = (stop, reps = 0, duration = 0) => {
     if (stop) {
       clearInterval(setTimer);
+
+      setSessionData((prevData) => {
+        const updatedExercises = [...prevData.exercises];
+        const currentExercise = updatedExercises[exerciseNum] || {
+          exerciseName: exercises?.exercises[exerciseNum]?.exerciseName,
+          exerciseType: exercises?.exercises[exerciseNum]?.exerciseType,
+          totalSets: maxSets,
+          sets: [],
+        };
+
+        // Add the current set data
+        currentExercise.sets.push({
+          setNumber: currentSetsNum,
+          reps: reps || null, // Reps for rep-based exercises
+          duration: duration || setTime, // Duration for time-based exercises
+        });
+
+        const removeSetsDuplicates = [
+          ...new Set(currentExercise.sets.map((set) => set.setNumber)),
+        ];
+        currentExercise.sets = removeSetsDuplicates.map((setNumber) => {
+          return currentExercise.sets.find(
+            (set) => set.setNumber === setNumber
+          );
+        });
+
+        updatedExercises[exerciseNum] = currentExercise;
+
+        console.log("Updated Exercises:", {
+          ...prevData,
+          sessionTime: sessionTime,
+          exercises: updatedExercises,
+        });
+        return {
+          ...prevData,
+          sessionTime: sessionTime,
+          exercises: updatedExercises,
+        };
+      });
 
       if (exerciseType === "Time") {
         const duration = exercises.exercises[exerciseNum].duration; // it's seconds
@@ -63,7 +105,6 @@ export default function Session({ workoutName }) {
       ) {
         setWorkoutComplete(true); // Mark the workout as complete
         setDisplayRestTimer(false); // Hide the rest timer
-        // Here you can handle the completion of the workout, e.g., save session data or navigate to a completion screen
       } else {
         setDisplayRestTimer(true); // Show the rest timer
       }
@@ -125,7 +166,7 @@ export default function Session({ workoutName }) {
           clearInterval(timer); // Stop the timer when it reaches 0
           setSetTimer(null);
           if (!isHandlerCalled) {
-            setTimeHandler(true); // Handle the end of the set
+            setTimeHandler(true, 0, duration); // Handle the end of the set
             isHandlerCalled = true; // Ensure the handler is called only once
           }
           return 0; // Ensure the timer stops at 0

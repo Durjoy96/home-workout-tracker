@@ -7,7 +7,7 @@ export default function RepsModal({ setTimeHandler }) {
     const reps = form.reps.value;
     if (reps) {
       document.getElementById("reps-modal").close();
-      setTimeHandler(true);
+      setTimeHandler(true, parseInt(reps), 0);
       form.reset(); // Reset the form after submission
     }
   };
