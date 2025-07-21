@@ -142,24 +142,3 @@ export default function SessionComplete({ sessionData }) {
     </div>
   );
 }
-
-/* {
-  "workoutName": "test session complete",
-  "sessionTime": 8,
-  "date": "2025-07-21T04:34:31.783Z",
-  "restTime": 0,
-  "exercises": [
-      {
-          "exerciseName": "Pushup",
-          "exerciseType": "Reps",
-          "totalSets": 1,
-          "sets": [
-              {
-                  "setNumber": 1,
-                  "reps": 10,
-                  "duration": 5
-              }
-          ]
-      }
-  ]
-} */

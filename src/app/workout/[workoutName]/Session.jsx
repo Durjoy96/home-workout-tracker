@@ -253,7 +253,10 @@ export default function Session({ workoutName }) {
             </button>
             <button
               className={`secondary-btn ${
-                displayCompletedBtn ? "block" : "hidden"
+                displayCompletedBtn &&
+                exercises?.exercises[exerciseNum]?.exerciseType === "Reps"
+                  ? "block"
+                  : "hidden"
               }`}
               onClick={() => document.getElementById("reps-modal").showModal()}
             >
