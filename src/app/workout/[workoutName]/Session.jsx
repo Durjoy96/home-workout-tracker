@@ -121,6 +121,10 @@ export default function Session({ workoutName }) {
       if (currentSetsNum >= maxSets) {
         setExerciseNum((prevExerciseNum) => prevExerciseNum + 1); // Move to the next exercise
       }
+
+      if (exercises?.exercises[exerciseNum]?.exerciseType === "Reps") {
+        setSetTime(() => 0);
+      }
     } else {
       const timer = setInterval(() => {
         setSetTime((prevTime) => prevTime + 1);
@@ -193,7 +197,7 @@ export default function Session({ workoutName }) {
           ) : (
             <>
               {workoutComplete ? (
-                <SessionComplete />
+                <SessionComplete sessionData={sessionData} />
               ) : (
                 <>
                   <div>
