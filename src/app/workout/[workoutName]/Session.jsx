@@ -44,8 +44,14 @@ export default function Session({ workoutName }) {
 
   useEffect(() => {
     if (exercises && exercises.exercises.length > 0) {
-      setExerciseType(exercises?.exercises[exerciseNum]?.exerciseType);
+      setExerciseType(() => exercises?.exercises[exerciseNum]?.exerciseType);
       setMaxSets(() => exercises?.exercises[exerciseNum]?.sets); // Update max sets for the new exercise
+      if (exercises?.exercises[exerciseNum]?.exerciseType === "Time") {
+        const duration = exercises?.exercises[exerciseNum]?.duration; // it's seconds
+        setSetTime(() => duration);
+      } else {
+        setSetTime(() => 0);
+      }
     }
   }, [exerciseNum, exercises]);
 
@@ -91,13 +97,6 @@ export default function Session({ workoutName }) {
           exercises: updatedExercises,
         };
       });
-
-      if (exerciseType === "Time") {
-        const duration = exercises.exercises[exerciseNum].duration; // it's seconds
-        setSetTime(duration);
-      } else {
-        setSetTime(0);
-      }
 
       if (
         exerciseNum >= exercises.exercises.length - 1 &&
@@ -169,7 +168,7 @@ export default function Session({ workoutName }) {
             setTimeHandler(true, 0, duration); // Handle the end of the set
             isHandlerCalled = true; // Ensure the handler is called only once
           }
-          return 0; // Ensure the timer stops at 0
+          return duration; // Ensure the timer stops at 0
         }
         return prevTime - 1; // Decrement the timer
       });
