@@ -21,7 +21,7 @@ export default function Session({ workoutName }) {
     workoutName,
     sessionTime: 0,
     date: new Date().toISOString(),
-    restTime: exercises?.restTime || 0,
+    totalRestTime: 0,
     exercises: [],
   });
 
@@ -94,6 +94,9 @@ export default function Session({ workoutName }) {
         return {
           ...prevData,
           sessionTime: sessionTime,
+          restTime: Number(exercises.restTime),
+          totalRestTime:
+            Number(sessionData.totalRestTime) + Number(exercises.restTime),
           exercises: updatedExercises,
         };
       });
