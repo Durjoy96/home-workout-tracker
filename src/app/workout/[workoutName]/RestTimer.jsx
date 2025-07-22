@@ -7,7 +7,9 @@ export default function RestTimer({
   currentSetsNum,
   maxSets,
 }) {
-  const [timeLeft, setTimeLeft] = useState(restTime * 1); // Convert minutes to seconds
+  const [timeLeft, setTimeLeft] = useState(
+    restTime * process.env.NEXT_PUBLIC_SECONDS_REST_TIME
+  ); // Convert minutes to seconds
 
   useEffect(() => {
     if (timeLeft <= 0) return setDisplayRestTimer((prev) => !prev);
