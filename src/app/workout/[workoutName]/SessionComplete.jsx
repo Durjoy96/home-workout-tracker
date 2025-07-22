@@ -15,7 +15,7 @@ export default function SessionComplete({ sessionData }) {
     }
   };
 
-  const formateSessionTime = (seconds) => {
+  const formateSetDurationTime = (seconds) => {
     if (seconds < 60) {
       return `${seconds} sec`;
     } else {
@@ -53,13 +53,21 @@ export default function SessionComplete({ sessionData }) {
                 </h4>
                 {/* exercise type and total sets */}
                 <div className="flex justify-between flex-wrap text-sm text-base-content-secondary pb-3 border-b border-base-400 mt-3">
-                  <span>Type: {exercise.exerciseType}</span>
                   {exercise.exerciseType === "Reps" && (
                     <span>
                       Total Reps:{" "}
                       {exercise.sets.reduce((acc, curr) => acc + curr.reps, 0)}
                     </span>
                   )}
+                  <span>
+                    Total Time:{" "}
+                    {formateSetDurationTime(
+                      exercise.sets.reduce(
+                        (acc, curr) => acc + Number(curr.duration),
+                        0
+                      )
+                    )}
+                  </span>
                   {exercise.exerciseType === "Reps" && (
                     <span>
                       Avg. Time:{" "}
@@ -119,7 +127,7 @@ export default function SessionComplete({ sessionData }) {
                 </span>
                 <span className="text-base-content-secondary text-sm flex gap-1 items-center">
                   <Timer className="w-4 h-4 stroke-base-content-secondary" />
-                  {formateSessionTime(sessionData.sessionTime)}
+                  {formateSetDurationTime(sessionData.sessionTime)}
                 </span>
               </div>
               <div className="flex items-center justify-between ">
