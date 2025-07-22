@@ -186,7 +186,7 @@ export default function Session({ workoutName }) {
   };
 
   return (
-    <div>
+    <div className="font-bricolage-grotesque">
       {exercises && exercises.exercises.length > 0 && (
         <div className="px-4 py-8 flex flex-col justify-between min-h-dvh relative">
           {displayRestTimer ? (
@@ -209,7 +209,7 @@ export default function Session({ workoutName }) {
                       <h2 className="text-base font-normal text-base-content-secondary text-center">
                         {workoutName} Session
                       </h2>
-                      <span className="text-xl font-semibold text-base-content text-center block mt-1">
+                      <span className="text-xl font-semibold font-roboto text-base-content text-center block mt-1">
                         {formatSessionTime(sessionTime)}
                       </span>
                     </div>
@@ -226,11 +226,11 @@ export default function Session({ workoutName }) {
                   </div>
                   <div>
                     {exerciseType === "Time" ? (
-                      <span className="text-6xl font-bold block text-center">
+                      <span className="text-6xl font-extrabold block text-center font-roboto">
                         {formatSetsTime(setTime)}
                       </span>
                     ) : (
-                      <span className="text-6xl font-bold block text-center">
+                      <span className="text-6xl font-extrabold block text-center font-roboto">
                         {formatSetsTime(setTime)}
                       </span>
                     )}
@@ -255,7 +255,7 @@ export default function Session({ workoutName }) {
                 }
               }}
               className={`primary-btn ${
-                displayCompletedBtn ? "hidden" : "block"
+                displayCompletedBtn ? "hidden" : "flex"
               }`}
             >
               <Play className="w-4 h-4 stroke-primary-content fill-primary-content" />{" "}

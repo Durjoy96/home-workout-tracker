@@ -15,7 +15,7 @@ export default function Home() {
     document.getElementById("save-workout").showModal();
   };
   return (
-    <div className="min-h-dvh px-4 py-8 flex flex-col justify-between">
+    <div className="min-h-dvh px-4 py-8 flex flex-col justify-between font-bricolage-grotesque">
       <div>
         <h2 className="text-3xl font-bold text-base-content">
           Create Workout Routine
