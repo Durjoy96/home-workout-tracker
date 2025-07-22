@@ -4,6 +4,7 @@ import RepsModal from "@/components/reps-modal";
 import React, { useEffect, useState } from "react";
 import RestTimer from "./RestTimer";
 import SessionComplete from "./SessionComplete";
+import { Play } from "lucide-react";
 
 export default function Session({ workoutName }) {
   const [exercises, setExercises] = useState(null);
@@ -204,14 +205,22 @@ export default function Session({ workoutName }) {
               ) : (
                 <>
                   <div>
-                    <h2 className="text-base font-normal text-base-content-secondary text-center">
-                      {workoutName} Session{" "}
-                      <span>{formatSessionTime(sessionTime)}</span>
-                    </h2>
-                    <h3 className="text-3xl font-bold text-base-content text-center mt-4">
-                      {exercises?.exercises[exerciseNum]?.exerciseName}
-                    </h3>
-                    <span className="text-base-content-secondary text-center block mt-2">
+                    <div>
+                      <h2 className="text-base font-normal text-base-content-secondary text-center">
+                        {workoutName} Session
+                      </h2>
+                      <span className="text-xl font-semibold text-base-content text-center block mt-1">
+                        {formatSessionTime(sessionTime)}
+                      </span>
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-center gap-2">
+                      <span className="text-2xl">🔥</span>
+                      <h3 className="text-3xl font-bold text-base-content">
+                        {exercises?.exercises[exerciseNum]?.exerciseName}
+                      </h3>
+                    </div>
+                    <span className="text-base text-base-content-secondary text-center block mt-1">
                       Set {currentSetsNum} of {maxSets}
                     </span>
                   </div>
@@ -249,6 +258,7 @@ export default function Session({ workoutName }) {
                 displayCompletedBtn ? "hidden" : "block"
               }`}
             >
+              <Play className="w-4 h-4 stroke-primary-content fill-primary-content" />{" "}
               Start {exercises?.exercises[exerciseNum]?.exerciseName}
             </button>
             <button
