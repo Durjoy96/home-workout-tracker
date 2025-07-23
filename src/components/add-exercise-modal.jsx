@@ -75,6 +75,8 @@ export default function AddExerciseModal({ setExercises }) {
                 onChange={(e) => {
                   if (e.target.value === "Time") {
                     setDisplayDurationInput(true);
+                  } else {
+                    setDisplayDurationInput(false);
                   }
                 }}
               >
