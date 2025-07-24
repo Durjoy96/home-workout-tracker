@@ -17,8 +17,8 @@
   --color-base-400: #cfd8e3;
   --color-base-content: #30313d;
   --color-base-content-secondary: #5c5b61; */
-  /*   --color-primary: #a8ff60;
-  --color-primary-content: #000000; */
+  --color-secondary: #a8ff60;
+  --color-secondary-content: #000000;
   --color-primary: #e6533c;
   --color-primary-content: #ffffff;
   --color-accent: #1e90ff;
@@ -43,7 +43,7 @@
 }
 
 .secondary-btn {
-  @apply py-3 px-4 rounded-lg border-2 bg-transparent border-primary text-primary w-full cursor-pointer text-base font-medium hover:bg-primary/90 hover:border-primary/90 hover:text-primary-content transition-colors duration-200;
+  @apply py-3 px-4 rounded-lg border-2 bg-secondary border-secondary text-secondary-content w-full cursor-pointer text-base font-semibold hover:bg-secondary/90 hover:border-secondary/90 hover:text-secondary-content transition-colors duration-200;
 }
 
 .circle-btn {
